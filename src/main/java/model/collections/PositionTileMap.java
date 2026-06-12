@@ -3,12 +3,13 @@ package model.collections;
 import model.bits.PositionTileMapLayoutBit;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 /// PositionTileMap
 ///
 /// small hashmap from packed board positions to long values
 /// used to store placed tiles by their position key in the state of the game
-public final class PositionTileMap {
+public final class PositionTileMap implements Iterable<Long> {
     private final int mask;
     private final int maxElements;
     private final long[] table; // 0L = empty
@@ -110,5 +111,24 @@ public final class PositionTileMap {
     /// returns an independent copy of this map
     public PositionTileMap deepCopy() {
         return new PositionTileMap(maxElements, mask, table.clone(), size);
+    }
+
+    @Override
+    public Iterator<Long> iterator() {
+        return new Iterator<>() {
+            private int idx = 0;
+
+            @Override
+            public boolean hasNext() {
+                while (idx < table.length && table[idx] == 0L) idx++;
+                return idx < table.length;
+            }
+
+            @Override
+            public Long next() {
+                if (!hasNext()) throw new java.util.NoSuchElementException();
+                return table[idx++];
+            }
+        };
     }
 }
