@@ -11,3 +11,4 @@ target/
 bin/
 tmp/
 runs/
+dependency-reduced-pom.xml
