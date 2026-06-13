@@ -17,7 +17,7 @@ import java.util.Set;
 
 /// PossibleActionManager
 ///
-/// this class is responsible for providing function to fastly calculate a set that
+/// this class is responsible for providing function to quickly calculate a set that
 /// contains all actions that can be performed in a given state according to the
 /// Carcassonne rules. Also provides functions to get a random function very fast
 public class PossibleActionManager {
@@ -55,7 +55,7 @@ public class PossibleActionManager {
         int tileEdges = currentTile.getTileTemplate();
 
         // frontier is a hashmap to iterate fast over it iterate over all elements of the
-        // underlying array and end if no possilbe elements remain to be found
+        // underlying array and end if no possible elements remain to be found
         int remaining = frontier.size();
         for (int i = 0; remaining != 0; i++) {
             int posBits = frontier.getPositionAt(i);
@@ -91,7 +91,7 @@ public class PossibleActionManager {
 
     /// calculateLocalAreas
     ///
-    /// when placing a tile the area composition of the complete stage is changed and though transitivity
+    /// when placing a tile the area composition of the complete stage is changed and through transitivity
     /// tiles that were previously not connected may be connected after the placement. On global
     /// and local scale. This can be a problem because depending on that a meeple may be placeable
     /// there or not.  This method simulates that locally.
@@ -105,7 +105,7 @@ public class PossibleActionManager {
     /// the information contains the area information after placement including meeple information
     /// can be used for further meeple placement simulation
     ///
-    /// Note: works threadsafe and overwrite  possibleActionsData.get().localAreas
+    /// Note: works threadsafe and overwrites possibleActionsData.get().localAreas
     private static void calculateLocalAreas(State state, int x, int y, int rotation) {
         ActionManagerMap map = possibleActionsData.get().map;
         long[] localAreas =  possibleActionsData.get().localAreas;
@@ -114,7 +114,7 @@ public class PossibleActionManager {
         var current = state.tileDeck.getCurrentTile();
 
         // works by creating a copy of the local areas possibleActionsData.localAreas and
-        // iterates over all neighbor areas(so of the tile oppsoite to the current area)
+        // iterates over all neighbor areas(so of the tile opposite to the current area)
         // checks if the areaRep of the neighbor has been seen before if not get the maxMeeple
         // information from there. If Already seen merge to the localArea that has already seen
         // it because they now belong to the same area
@@ -167,13 +167,13 @@ public class PossibleActionManager {
 
     /// addMeepleActions
     ///
-    /// adds all possible meeple placement action in the providede action ActionSet
+    /// adds all possible meeple placement action in the provided action ActionSet
     /// makes sure that all meeple actions are inserted exactly once in unique is true
     ///
-    /// @param state the state in which the actions need to be possilbe
+    /// @param state the state in which the actions need to be possible
     /// @param x x-Axis pos of the placed tile
     /// @param y y-Axis pos of the placed tile
-    /// @param rot the rotation [0,3] counterclockwise rotaition
+    /// @param rot the rotation [0,3] counterclockwise rotation
     /// @param actions the set in which the actions are placed into
     /// @param unique only rep meeple pos or all
     ///
@@ -209,7 +209,7 @@ public class PossibleActionManager {
     ///
     /// returns a random action that can be performed in state. The focus is speed. So the
     /// function compared to the alternative(calculating all possible action and take one)
-    /// reactively fast. The main draw back is that it is not uniform sampled so has a intenral
+    /// relatively fast. The main drawback is that it is not uniformly sampled so has an internal
     /// bias
     ///
     /// ensures that the returned action is performable
@@ -223,7 +223,7 @@ public class PossibleActionManager {
         int tableLen = frontier.slotCount();
 
         // first randomly select a position in the frontier table and search from there for a valid
-        // position. Then select a random rotation for that tile and depending on meeplePropa ranodm meeple position
+        // position. Then select a random rotation for that tile and depending on meepleProb a random meeple position
         int startIdx = rand.nextInt(tableLen);
         boolean hasMeeple = state.meepleRegistry.findFreeMeeple(state.currentPlayer) != 0;
 
@@ -257,7 +257,7 @@ public class PossibleActionManager {
     /// getRandomActionRotation
     ///
     /// @param state from where the rotation shall be valid
-    /// @param rand Random object to get pseduo random numbers
+    /// @param rand Random object to get pseudo random numbers
     /// @param frontierIndex index in the frontier table of the position where a rotation shall be selected
     /// @return -1 if there is no possible rotation [0,3] a random possible rotation
     private static int getRandomActionRotation(State state, Random rand, int frontierIndex){
@@ -269,7 +269,7 @@ public class PossibleActionManager {
         int randomRot = rand.nextInt(rotationCount);
         for (int i = 0; i < rotationCount; i++) {
             int rot = ( randomRot+i) %rotationCount;
-            // start at a random indext [0,3] and loop over
+            // start at a random index [0,3] and loop over
             if (Tile.isPlacementValid(constraints, tileEdges, rot)) {
                 // if pos+rot is valid return that rotation
                 return rot;
@@ -284,9 +284,9 @@ public class PossibleActionManager {
     /// where the meeple shall be placed. Is biased but fast. Returns -1 if non is valid
     ///
     ///  @param state from where the rotation shall be valid
-    ///  @param rand Random object to get pseduo random numbers
-    /// @param x x-Axios pos of the tile where it will be placed
-    /// @param y y-Acis pos of the tile
+    ///  @param rand Random object to get pseudo random numbers
+    /// @param x x-Axis pos of the tile where it will be placed
+    /// @param y y-Axis pos of the tile
     /// @param rot rotation of the tile where a meeple pos shall be selected [0,3] counterclockwise
     /// @return localAreaId for meeple placement or -1 if no position is applicable
     private static int getRandomMeeple(State state, Random rand, int x, int y, int rot){
@@ -296,7 +296,7 @@ public class PossibleActionManager {
 
         var currentTile = state.tileDeck.getCurrentTile();
 
-        // handle monastery like edge areas for more uniform sampeling
+        // handle monastery like edge areas for more uniform sampling
         // iterate over all areas with random start point and select the first valid area
         int areaCount = currentTile.isMonastery() ? 13:12;
         int randArea = rand.nextInt(areaCount);

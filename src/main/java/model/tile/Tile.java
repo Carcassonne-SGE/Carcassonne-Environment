@@ -13,7 +13,7 @@ import model.exceptions.InvalidTilePlacement;
 /// A tile is a bitpacked long that contains all information for that tile. This class provides functionality
 /// to work with that bitpacked long. Mainly it provides a placeTile method that integrates a tile into the overall
 /// placed tilemap according to the carcassonne rules. Also provides fast checking to check if a position, rotation pair
-///  is valid to. This class does not concern itself with meeples just the tiles itsel
+///  is valid too. This class does not concern itself with meeples just the tiles itself
 public class Tile {
 
     private Tile() {}
@@ -39,7 +39,7 @@ public class Tile {
         }
 
         // the template from the tile spec contains all edges bitpacked unrotated. Need to rotate that
-        // by shifting and then bitpack the results to geht the encoding. Use raw pack all values are validated and trusted
+        // by shifting and then bitpack the results to get the encoding. Use raw pack all values are validated and trusted
         int edges = rotateEdgesCounterClockwise(tileSpec.getTileTemplate(), rot);
         int x =  PositionLayoutBit.getX(positionBits);
         int y =  PositionLayoutBit.getY(positionBits);
@@ -50,7 +50,7 @@ public class Tile {
         // need to merge the areas of the new tile to the adjacent areas of the neighbor tiles
         mergeAreasToMap(tile, tiles, areas, frontier);
 
-        // remove current positon from the frontier. Position is no used
+        // remove current position from the frontier. Position is now used
         frontier.remove(positionBits);
         return tile;
     }
@@ -163,10 +163,10 @@ public class Tile {
     /// getEdgeArea
     ///
     /// finds the area encoding of a area given the local area id and the tile it belongs to
-    /// handels the rotation already correctly. So the localAreaId is the way it would be rendered
+    /// handles the rotation already correctly. So the localAreaId is the way it would be rendered
     ///
-    /// @param areas the Area Registry containg all Area information
-    /// @param tile the bitpacekd tile information
+    /// @param areas the Area Registry containing all Area information
+    /// @param tile the bitpacked tile information
     /// @param localId the area of interest
     /// @return the area encoding of the requested localArea
     public static long getEdgeArea(AreaRegistry areas, long tile, int localId) {
@@ -191,7 +191,7 @@ public class Tile {
     }
 
     /// getEdgeByDir
-    /// returns from the given bitpacked tile a edge in the direciton of dir
+    /// returns from the given bitpacked tile an edge in the direction of dir
     ///
     /// @param tile bitpacked tile
     /// @param dir direction 0,1,2,3 left,top,right, bottom already rotated

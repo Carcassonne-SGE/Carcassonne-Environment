@@ -58,9 +58,9 @@ public class GameConfigBuilder {
         return startTileBuilder;
     }
 
-    /// build and create the configration shall only be called once
+    /// build and create the configuration shall only be called once
     ///
-    /// assumes setStartFiled was called
+    /// assumes setStartField was called
     public GameConfiguration build(boolean useOccurrences) {
         int tileCount = gameTilesBuilderList.stream()
                 .mapToInt(tile -> useOccurrences ? tile.getOccurrences() : 1)

@@ -31,7 +31,7 @@ public final class HeuristicManager {
     /// computes from a given state, action pair some information on how good that action will
     /// be.
     ///
-    /// @param state the state in wich the actin would be executed
+    /// @param state the state in which the action would be executed
     /// @param action the action bit encoded information. GetValue on a action object or pack the value directly using
     /// CarcassonneActionLayoutBit. (done to reduce heap allocations)
     ///

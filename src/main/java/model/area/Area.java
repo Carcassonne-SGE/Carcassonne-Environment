@@ -16,7 +16,7 @@ import model.enums.AreaType;
 /// To Implement this concept of a Area a Union-Find Data-Structure was used. An Area is here
 /// a Set containing the individual sub areas. Basically each area has a parent. The top nodes have
 /// itself as parent. If i want to check if two areas are part of the same area i go this chain up
-/// and compare the "representatives". TO make that fast on each way up the paht is halved to that
+/// and compare the "representatives". To make that fast, on each way up the path is halved so that
 /// overtime the chain get really tiny
 ///
 /// One thing is that the representatives need to be recalculated every time they are accessed
@@ -100,16 +100,16 @@ public class Area {
     ///
     /// each area stores a Completeness counter/ openEdgesCounter which is used do determine
     /// if an area is completed or not. If the counter is zero it is completed. This method
-    /// shall be called everytime a event happens that influences that counter. Those events where
-    /// it needs to be called depends on the AreaType
+    /// shall be called every time an event happens that influences that counter. Those events where
+    /// it needs to be called depend on the AreaType
     ///
     /// if AreaType is not Monastery the completeness counter is initialized with 1. In this
-    /// context it is more like open-Edges/ open-Areas counter. So each area is open an needs to
-    /// be closed and this counts that. In the case if two areas are merged this methad shall be called to
+    /// context it is more like open-Edges/ open-Areas counter. So each area is open and needs to
+    /// be closed and this counts that. In case two areas are merged this method shall be called to
     /// reduce the counter by -2
     ///
-    /// If it is a monastery the initial completeness Counter is 8 and everytime a neighbour tile is placed
-    /// this method shall be called. It reduced the counter by one.So that if there are 8 neighbours the
+    /// If it is a monastery the initial completeness Counter is 8 and every time a neighbouring tile is placed
+    /// this method shall be called. It reduces the counter by one. So that if there are 8 neighbours the
     /// counter is zero
     public static void updateCompleteness(long[] areas, long areaR) {
         int index = getGlobalAreaId(areaR);
@@ -163,7 +163,7 @@ public class Area {
     /// equals
     ///
     /// checks if the globalAreaId of two areas is the same
-    /// is needed in the case if two areas are the same but on is maybe older and diffrent
+    /// is needed in the case where two areas are the same but one is maybe older and different
     public static boolean equals(long a, long b) {
         int aGlobalId = getGlobalAreaId(a);
         int bGlobalId = getGlobalAreaId(b);

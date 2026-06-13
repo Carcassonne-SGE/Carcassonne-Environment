@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class ScoringManager {
     // the function of the ScoringManager need work arrays. To reduce heap allocations
     // they are statically allocated. To keep the env Threadsafe ThreadLocal is used to get
-    // diffrent arrays for diffrent threads so that parallel execution does not mess things up
+    // different arrays for different threads so that parallel execution does not mess things up
     private static final ThreadLocal<ScoringManagerThreadLocal> data =
             ThreadLocal.withInitial(ScoringManagerThreadLocal::new);
 
@@ -32,8 +32,8 @@ public class ScoringManager {
     /// @param done if the end-Scoring is performed(as described in the Carcassonne rules)
     ///
     /// collects the points of the player and performs the end point collection if done is true
-    /// mutates the state. So Iterates over all placed meeples and changes the points if the filed
-    /// is completed. The result is that all meeple are agian free that should be free and that the
+    /// mutates the state. So Iterates over all placed meeples and changes the points if the field
+    /// is completed. The result is that all meeple are again free that should be free and that the
     /// player points are increased according to the rules
     ///
     /// - gives points
@@ -56,15 +56,14 @@ public class ScoringManager {
         // the players with the most meeple on a area get the points. So check that we need
         // to calculate for all areas with meeples on it what the max number of meeples is a player
         // has placed on the area.
-        // then we can iterate over all meeples anf if not valued yet give the points if the numer
+        // then we can iterate over all meeples and if not valued yet give the points if the number
         // of meeples is the max that was previously calculated
-
-        // use seen to find the max meeples for all areas exatly once
+        // use seen to find the max meeples for all areas exactly once
         scoreData.seen.ensureSeen(areaRegistry.areas.length);
 
         int[] meeples = meeplesRegistry.getMeeples();
-        // need to calculate for the areas what the max count of meeples is there. To safe time look only
-        // at areas where meeples are placed. To further safe calculate the max meeples on a area exatly once
+        // need to calculate for the areas what the max count of meeples is there. To save time look only
+        // at areas where meeples are placed. To further save, calculate the max meeples on an area exactly once
         for(int i = 0; i < meeples.length; i++){
             int meeple = meeples[i];
             if (!Meeple.isFree(meeple)) {
@@ -74,8 +73,8 @@ public class ScoringManager {
                 // either the area is completed or the game is over in both cases can collect them
                 boolean complete = Area.isCompleted(area) || done;
                 if (complete && scoreData.seen.notSeenAndSet( globalAreaId)) {
-                    // found a area where we are interested how many meeples are placed on there
-                    // clalcualte that value and save it in the area encoding
+                    // found an area where we are interested how many meeples are placed on there
+                    // calculate that value and save it in the area encoding
                     int maxMeeples = findMaxMeeplesAndFree(config, meeplesRegistry, areaRegistry, area);
                     areaRegistry.areas[globalAreaId] = AreaLayoutBit.setMaxMeeples(area, maxMeeples);
                 }
@@ -100,16 +99,16 @@ public class ScoringManager {
 
     /// findMaxMeeplesAndFree
     ///
-    /// sideeffects: if a player has multiple meeples on that area all duplicates are removed and in the
+    /// side effects: if a player has multiple meeples on that area all duplicates are removed and in the
     /// one remaining per player the count is stored for final collection and the rep is marked as collectable
     ///
     /// the side effects make execution significantly faster due to less heap allocation and less instruction in general
     /// @param config the GameConfig
-    /// @param meeplesRegistry the registriy of the current State
+    /// @param meeplesRegistry the registry of the current State
     /// @param areas the current areas of the state
     /// @param area the area of interest where we want to calculate the number of meeples on it.
     ///
-    /// @return how many meeples the player witht the most meeples has placed on the given area
+    /// @return how many meeples the player with the most meeples has placed on the given area
     public static int findMaxMeeplesAndFree(GameConfiguration config, MeepleRegistry meeplesRegistry, AreaRegistry areas, long area){
         int globalMax = 0;
         // iterate over all player
@@ -238,7 +237,7 @@ public class ScoringManager {
         // linked list where head stores the starts
         int[] head = new int[0];
         int[] next = new int[0];
-        // used to store for what caslte the last time points to a grass field were awarded
+        // used to store for what castle the last time points to a grass field were awarded
         // used to award grass points only once
         int[] lastSeenCastle = new int[0];
 
@@ -267,7 +266,7 @@ public class ScoringManager {
 
         /// appendToLinkedList
         ///
-        /// appends a areaId to the linkedList of the giben representative
+        /// appends a areaId to the linkedList of the given representative
         public void appendToLinkedList(int areaId, int repId) {
             next[areaId] = head[repId];
             head[repId] = areaId;

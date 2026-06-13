@@ -24,7 +24,7 @@ import java.util.Set;
 /// Models the Mutable State of a Carcassonne Game
 ///
 /// Holds all data for playing a game. Game is completely characterized by that object
-/// provides getter methods. If noncanonical it just returns the actial objects otherwise deep copies
+/// provides getter methods. If noncanonical it just returns the actual objects otherwise deep copies
 ///
 /// {@link PerformActionManager} allows to perform actions on a state
 /// {@link PossibleActionManager} allows to calculates all available actions in a state and fast random actions
@@ -176,7 +176,7 @@ public class State {
     /// if currently in a draw action switch to place action and if in place action
     /// switch to draw action.
     ///
-    /// Also if a place action was performed is swtiches to the next player and loops
+    /// Also if a place action was performed it switches to the next player and loops
     ///
     /// Note: Does not check if the action was actually performed
     void nextPlayer() {
@@ -224,7 +224,7 @@ public class State {
 
     /// getCurrentTile
     ///
-    /// returns the tile that was last drawn. So the tile that is currenty seen
+    /// returns the tile that was last drawn. So the tile that is currently seen
     /// if in a draw action {@code null} is returned
     public TileSpec getCurrentTile() {
         return tileDeck.getCurrentTile();

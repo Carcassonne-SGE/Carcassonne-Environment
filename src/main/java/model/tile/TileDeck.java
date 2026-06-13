@@ -17,7 +17,7 @@ import java.util.Random;
 /// The TileDeck also keeps track of the current Open Tile(so the last drawn one)
 ///
 /// provides functionality to determinize the deck. Which eagerly shuffles the deck and prevents lazy
-/// shuffling on draw events. This is not usefully for normal playthroughs but very usefull for mcts Simulations
+/// shuffling on draw events. This is not useful for normal playthroughs but very useful for mcts Simulations
 public class TileDeck {
     private static final ThreadLocal<int[]> SOFT_FIND_SCRATCH = ThreadLocal.withInitial(() -> new int[0]);
     private boolean determinized;                 // to store if deck is determinized or not
@@ -62,7 +62,7 @@ public class TileDeck {
 
     /// findNextTile
     ///
-    /// Uses the {@link #popGetTile(Random)} to draw tiles untile one has been found that has atleas
+    /// Uses the {@link #popGetTile(Random)} to draw tiles until one has been found that has at least
     /// one valid placement. If during this process tiles are found that can't be placed they are discarded
     /// from the game
     ///
@@ -134,7 +134,7 @@ public class TileDeck {
     /// popForceGetTile
     ///
     /// Forces the tile with the given tile id to be the next drawn tile and returns its
-    /// {@link TileSpec}. This is usefully for an MCTS Agent that does not rely on deep copies but just
+    /// {@link TileSpec}. This is useful for an MCTS Agent that does not rely on deep copies but just
     /// reapplies the actions
     ///
     /// @throws TileDeckException if TileId was already placed or not found
@@ -239,7 +239,7 @@ public class TileDeck {
 
     /// unPop
     ///
-    /// undu the last draw
+    /// undo the last draw
     public void unPop(){
         assert  deckPos > 0;
         deckPos -= 1;
@@ -270,7 +270,7 @@ public class TileDeck {
                 if (Tile.isPlacementValid(constraints, tileEdges, rot)) {
                     return true;
                 }
-                // meeples are not important for checking if there exists a placement so this can be skiped
+                // meeples are not important for checking if there exists a placement so this can be skipped
             }
         }
         return false;

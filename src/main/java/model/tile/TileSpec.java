@@ -287,7 +287,7 @@ public class TileSpec {
 
     /// getTileTemplate
     ///
-    /// returns a bitpacked int left,top,tight, botoom of to bit that reprsent
+    /// returns a bitpacked int representing the edge types in the order: left, top, right, bottom
     /// the edgetype
     ///
     /// 0: grass

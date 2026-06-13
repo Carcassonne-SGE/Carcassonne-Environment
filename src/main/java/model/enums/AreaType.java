@@ -6,7 +6,7 @@ package model.enums;
 /// it not distinguished between the different roads. The information about that is stored in the area long
 ///
 /// This enum is rarely used due to the slowness of Enums in java. But the types and the in values
-/// are used consistently though out hte project
+/// are used consistently throughout the project
 public enum AreaType {
     FIELD(0), CASTLE(1), ROAD(2), MONASTERY(3);
 
@@ -32,7 +32,7 @@ public enum AreaType {
 
     /// fromEdgeType
     ///
-    /// maps the Edge Type and the positon on that edge(left, center,right) to the type
+    /// maps the Edge Type and the position on that edge(left, center, right) to the type
     /// so that if the type is road the areas left and right are grass and center is road
     public static AreaType fromEdgeType(EdgeType edgeType, LabelEdgePos labelPosition) {
         var areaType = AreaType.fromValue(edgeType.toSimpleInt());

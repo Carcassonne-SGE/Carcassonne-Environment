@@ -26,10 +26,10 @@ public final class Player {
     /// @param areas the AreaRegistry you get that from the state
     /// @param meeples the MeepleRegistry you get that from the state
     /// @param playerId id of the player placing the meeple, zero based
-    /// @param area the area where the meeple is beeing placed. this means
+    /// @param area the area where the meeple is being placed. this means
     /// the actual long encoding of the area. Does not need to be the Representative
     ///
-    /// Note: assums area is a valid bit packed area
+    /// Note: assumes area is a valid bit packed area
     ///
     /// @throws MeepleAlreadyOnTileExcpetion
     /// @throws NoMeepleLeftException
@@ -47,12 +47,12 @@ public final class Player {
     /// placeMeeple
     ///
     /// places one free meeple of the player on the given area. Checks also
-    /// if the meeple placeement is valid.
+    /// if the meeple placement is valid.
     ///
     /// @param areas the AreaRegistry you get that from the state
     /// @param meeples the MeepleRegistry you get that from the state
     /// @param playerId id of the player placing the meeple, zero based
-    /// @param area the area where the meeple is beeing placed. this means
+    /// @param area the area where the meeple is being placed. this means
     /// the actual long encoding of the area. Does not need to be the Representative
     ///
     ///  @throws MeepleAlreadyOnTileExcpetion
@@ -73,17 +73,17 @@ public final class Player {
 
     /// getPoints
     ///
-    /// @param playerPoints the bit packed player points infomration
+    /// @param playerPoints the bit packed player points information
     /// @param playerId the id(zero based) of the player you want to get the points of
-    /// returns the points of a player given den playerPoints bitpacked int
-    /// uses bit operations to get the points of one spesific player
+    /// returns the points of a player given the playerPoints bitpacked int
+    /// uses bit operations to get the points of one specific player
     public static int getPoints(long playerPoints, int playerId) {
         return (int) ((playerPoints >>> (playerId * 12)) & 0xFFFL);
     }
 
     /// addPoints
     ///
-    /// @param playerPoints the bit packed player points infomration
+    /// @param playerPoints the bit packed player points information
     /// @param playerId the id(zero based) of the player you want to add the points of
     /// @param value the points you want to add
     /// returns the new bitpacked points value

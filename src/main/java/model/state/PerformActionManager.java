@@ -16,7 +16,7 @@ public class PerformActionManager {
     /// performActionRaw
     ///
     /// performs a place Action on the given state and forces the given tileId to be used as the current Tile
-    /// the provided tileId needs to be not palced yet
+    /// the provided tileId needs to be not placed yet
     ///
     /// @param state the state on which the action is performed
     /// @param tileId the tile which is being placed. This overwrites the currentTile logic of the state
@@ -50,7 +50,7 @@ public class PerformActionManager {
     /// @param state the state on which the action is performed
     /// @param tileId the tile which is being placed. This overwrites the currentTile logic of the state
     /// @param x x-Axis position where the tile will be placed
-    /// @param y y-Axis position where the tle will be placed
+    /// @param y y-Axis position where the tile will be placed
     /// @param rot the rotation of the now placed tile in [0,3] rotates counter-clockwise
     /// @param localAreaId -1 if no meeple otherwise the area id where to place the meeple
     /// Note: {@link State#doPlaceAction(int, int, int, int)} for more documentation
@@ -73,7 +73,7 @@ public class PerformActionManager {
     ///
     /// @param state the state on which the action is performed
     /// @param x x-Axis position where the tile will be placed
-    /// @param y y-Axis position where the tle will be placed
+    /// @param y y-Axis position where the tile will be placed
     /// @param rot the rotation of the now placed tile in [0,3] rotates counter-clockwise
     /// @param localAreaId -1 if no meeple otherwise the area id where to place the meeple
     ///

@@ -11,7 +11,7 @@ The game itself can be used through the normal sge env interface. CaracssonneGam
 a Place Action representing the act of a player ( placing a tile with a meeple)
 and a draw action(Draw a Tile and determine the next placeable tile). The draw Actions are usually performed by the SGE-Engine.
 
-the getBoard method of the CaracssonneGame returns the state of the game.The State completely characterizes the current game. The state provides methods vor obtaining information about the current state.
+the getBoard method of the CaracssonneGame returns the state of the game.The State completely characterizes the current game. The state provides methods for obtaining information about the current state.
 
 When doing MCTS the state provides all methods needed to calculate the simulations or do deep copies fast.
 

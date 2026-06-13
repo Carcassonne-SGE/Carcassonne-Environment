@@ -17,40 +17,43 @@ import java.util.Arrays;
 /// do a placement i only need to check if those constraints are satisfied or not.
 ///
 /// Note: Uses as values everywhere int but they are packed using EdgeConstraintLayout
-public final class FrontierMap{
+public final class FrontierMap {
     // special values to indicate special cases
     public static final int EMPTY = Integer.MIN_VALUE;
     private static final long EMPTY_SLOT = 0L;
     private static final long DELETED_SLOT = 1L;
 
-    // internal array used for the hashmap. table.length = 2^a for some a. So needs to be power of 2
+    // internal array used for the hashmap. table.length = 2^a for some a. So needs
+    // to be power of 2
     private long[] table;
 
-    // table.length - 1 used for very fast % modolu table.length
+    // table.length - 1 used for very fast % modulo table.length
     private int mask;
 
     // number of current elements in the hashmap
     private int size;
-    // live count  + tombstones count
+    // live count + tombstones count
     private int used;
     private int resizeAt;
 
-
     /// FrontierMap
     ///
-    /// Public constructor that takes the expected number of elements. Number of elements is not fixed
+    /// Public constructor that takes the expected number of elements. Number of
+    /// elements is not fixed
     /// but can grow if needed
     public FrontierMap(int expectedSize) {
         int slots = 1;
         int need = (expectedSize * 10) / 6 + 1;
-        while (slots < need) slots <<= 1;
+        while (slots < need)
+            slots <<= 1;
         init(slots);
     }
 
     /// addConstraint
     ///
-    /// If no constraint for that position is present it is created  and if already exsits
-    /// the positon entry is updated
+    /// If no constraint for that position is present it is created and if already
+    /// exists
+    /// the position entry is updated
     ///
     /// @param position where the new constraint should be added
     /// @param edge the edgeType or constraint that is added so the value
@@ -73,7 +76,8 @@ public final class FrontierMap{
         while (true) {
             long entry = table[idx];
             // empty means the key was never inserted in this probe chain
-            if (entry == EMPTY_SLOT) return 0;
+            if (entry == EMPTY_SLOT)
+                return 0;
             // found the matching entry return its constraints
             if (entry != DELETED_SLOT && FrontierMapEntryLayoutBit.getKey(entry) == key) {
                 return FrontierMapEntryLayoutBit.getValue(entry);
@@ -88,8 +92,8 @@ public final class FrontierMap{
     /// stores or updates the constraints for a position
     /// uses linear probing and reuses deleted slots if possible
     private void put(int key, int value) {
-        // resize if to small
-        if (used >= resizeAt){
+        // resize if too small
+        if (used >= resizeAt) {
             rehash((mask + 1) << 1);
         }
 
@@ -113,7 +117,8 @@ public final class FrontierMap{
 
             if (entry == DELETED_SLOT) {
                 // remember first tombstone for possible reuse
-                if (firstDeleted == -1) firstDeleted = idx;
+                if (firstDeleted == -1)
+                    firstDeleted = idx;
             } else if (FrontierMapEntryLayoutBit.getKey(entry) == key) {
                 // key already exists just overwrite value
                 table[idx] = FrontierMapEntryLayoutBit.rawPack(key, value);
@@ -134,7 +139,8 @@ public final class FrontierMap{
         while (true) {
             long entry = table[idx];
             // empty means key does not exist
-            if (entry == EMPTY_SLOT) return false;
+            if (entry == EMPTY_SLOT)
+                return false;
             if (entry != DELETED_SLOT && FrontierMapEntryLayoutBit.getKey(entry) == key) {
                 // keep probe chains intact by writing a tombstone
                 table[idx] = DELETED_SLOT;
@@ -146,8 +152,6 @@ public final class FrontierMap{
         }
     }
 
-
-
     /// size
     ///
     /// @return number of elements in the FrontierMap
@@ -156,19 +160,20 @@ public final class FrontierMap{
     }
 
     /// slotCount
-    /// Note that slotCount is the number of elements in the array in the underlying hashmap
-    /// @return   the current size of the hashmap long array
+    /// Note that slotCount is the number of elements in the array in the underlying
+    /// hashmap
+    /// @return the current size of the hashmap long array
     /// Note: again tradeoff between data encapsulation and performance
     public int slotCount() {
         return table.length;
     }
 
-
     /// getNextIndex
     ///
     /// takes an index and iterates from there until a nonempty slot is found
     /// @param startIndex from where is the search started
-    /// @return if such a position as found return that index if not return EMPTY(public const of that class)
+    /// @return if such a position as found return that index if not return
+    /// EMPTY(public const of that class)
     public int getNextIndex(int startIndex) {
         int idx = Math.max(0, startIndex);
         for (; idx < table.length; idx++) {
@@ -180,11 +185,12 @@ public final class FrontierMap{
         return EMPTY;
     }
 
-    ///  getValueAt
+    /// getValueAt
     ///
     /// returns a value at an index but checks if it is in range on filled
     /// value means here the constraints
-    /// Note: not an optimal solution to hide the internal state but tradeoff between speed and data encapsulation
+    /// Note: not an optimal solution to hide the internal state but tradeoff
+    /// between speed and data encapsulation
     public int getValueAt(int index) {
         if (index < 0 || index >= table.length) {
             return EMPTY;
@@ -197,9 +203,12 @@ public final class FrontierMap{
     }
 
     /// getPositionAt
-    /// @param index checks for validity of the index so not out of range if out of range or something return EMPTY
-    /// @return returns the key at an index which means at an index what position is there
-    /// Note: not an optimal solution to hide the internal state but tradeoff between speed and data encapsulation
+    /// @param index checks for validity of the index so not out of range if out of
+    /// range or something return EMPTY
+    /// @return returns the key at an index which means at an index what position is
+    /// there
+    /// Note: not an optimal solution to hide the internal state but tradeoff
+    /// between speed and data encapsulation
     public int getPositionAt(int index) {
         if (index < 0 || index >= table.length) {
             return EMPTY;
@@ -210,7 +219,6 @@ public final class FrontierMap{
         }
         return FrontierMapEntryLayoutBit.getKey(entry);
     }
-
 
     /// Private DeepCopy constructor allows for setting of private fields
     private FrontierMap(long[] table, int mask, int size, int used, int resizeAt) {
@@ -225,7 +233,6 @@ public final class FrontierMap{
     public FrontierMap deepCopy() {
         return new FrontierMap(table.clone(), mask, size, used, resizeAt);
     }
-
 
     /// init
     ///
@@ -254,8 +261,10 @@ public final class FrontierMap{
 
     /// rehash
     ///
-    /// internal helper function that creates a new hashmap long[] which might be large
-    /// and inserts them again. Which cleans the Deleted_slot and adjust to larger size
+    /// internal helper function that creates a new hashmap long[] which might be
+    /// large
+    /// and inserts them again. Which cleans the Deleted_slot and adjust to larger
+    /// size
     private void rehash(int newSlots) {
         long[] old = table;
         init(newSlots);

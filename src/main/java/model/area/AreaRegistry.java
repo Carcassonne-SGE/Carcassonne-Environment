@@ -7,7 +7,7 @@ import model.tile.TileSpec;
 ///
 /// This is a glorified collection. It manages an long[] where all areas are stored
 /// it provides functionality for merging the areas on a game global scale in a balanced way,
-/// to find the representatves and other minor things.
+/// to find the representatives and other minor things.
 ///
 /// Provides extreme fast deepCopy
 public class AreaRegistry {
@@ -69,13 +69,13 @@ public class AreaRegistry {
     /// Is unchecked and works on the global array
     public long findRepresentative(int globalId) {
         int id = globalId;
-        // do not recursively, should be a bit faster
+        // do not recurse, should be a bit faster
         while (true) {
             long v = areas[id];
-            // check if the current element it's own parent and end if so found parent
+            // check if the current element is its own parent and end if so found parent
             int p = AreaLayoutBit.getParentGlobalAreaId(v);
             if (p == id) return v;
-            //check if parent is already representative by getting grandparent if not set curent parent to gradnparent
+            // check if parent is already representative by getting grandparent if not set current parent to grandparent
             int gp = AreaLayoutBit.getParentGlobalAreaId(areas[p]);
             if (gp != p) areas[id] = AreaLayoutBit.setParentGlobalAreaId(v, gp);
             id = p;
@@ -92,7 +92,7 @@ public class AreaRegistry {
         long a = findRepresentative(areaGlobalIdA);
         long b = findRepresentative(areaGlobalIdB);
 
-        // does the balancing so that no branch gets to long
+        // does the balancing so that no branch gets too long
         if (AreaLayoutBit.getSize(a) < AreaLayoutBit.getSize(b)) {
             long tmp = a;
             a = b;
@@ -108,13 +108,13 @@ public class AreaRegistry {
 
     /// findLocalRepresentative
     ///
-    /// @param localAreas local Area Registry indexed by loca area id should be length 13
+    /// @param localAreas local Area Registry indexed by local area id should be length 13
     /// @param area you want to loop to find representative
     ///
     /// is a generalized version of findRepresentative that uses only the localIds
-    /// a Array is given and the indexes of the areas are found using hte localids of the areas
+    /// an array is given and the indexes of the areas are found using the local IDs of the areas
     public static long findLocalRepresentative(long[] localAreas, long area) {
-        // get informations
+        // get information
         int localId = AreaLayoutBit.getLocalAreaId(area);
         long current = localAreas[localId];
         int areaParentId = AreaLayoutBit.getParentGlobalAreaId(current);
@@ -200,7 +200,7 @@ public class AreaRegistry {
 
     /// getMonasteryArea
     ///
-    /// returns the monastery area of that tile. If it is not a monastery 0 is retuned
+    /// returns the monastery area of that tile. If it is not a monastery 0 is returned
     public long getMonasteryArea(int tileId) {
         return getArea(tileId, 12);
     }
@@ -227,7 +227,7 @@ public class AreaRegistry {
 
     /// Helper function to check if two areas are the same
     ///
-    /// Note: does not assume that area1 and area2 are represenatives so works for all
+    /// Note: does not assume that area1 and area2 are representatives so works for all
     public boolean isSameArea(long area1, long area2) {
         return Area.equals(findRepresentative(area1), findRepresentative(area2));
     }
