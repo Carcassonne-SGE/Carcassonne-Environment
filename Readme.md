@@ -1,6 +1,6 @@
 ## Carcassonne Env
 
-Carcassonne is  Tile based game that someone can play with up to 5 players. This project implements this game and supports $[2,4]$ players. The rules of the rules were implemented according to the provided rule set `./CarcassonneRules.pdf`. The environment was implemented to be compatible with the existing Strategy Game Engine (https://gitlab.com/StrategyGameEngine/strategy-game-engine) 
+Carcassonne is  Tile based game that someone can play with up to 5 players. This project implements this game and supports $[2,4]$ players. The rules of the game were implemented according to the provided rule set `./CarcassonneRules.pdf`. The environment was implemented so that it is compatible with the existing Strategy Game Engine (https://gitlab.com/StrategyGameEngine/strategy-game-engine) 
 
 Main focus of the implementation was to produce a well optimized and fast experience where the environment step and the deepCopy of states is very fast and optimized for Monte-Carlo Tree Search. Another big consideration factor was to allow good readability .
 
