@@ -26,7 +26,7 @@ import model.bits.CarcassonneActionLayoutBit;
 ///
 /// Internally an action is just an encoded int using BitPacking based on the {@link model.bits.CarcassonneActionLayout}
 /// this class is responsible for hiding that fact from the game itself and provide a simple interface.
-public  class CarcassonneAction {
+public class CarcassonneAction {
 
     // special area ids with special meaning
     public static final int NO_MEEPLE_AREA_ID = -1;
@@ -35,8 +35,12 @@ public  class CarcassonneAction {
     // internal int representation of the Action
     private final int actionEncoding;
 
+    /// takes the raw action encoding
+    public CarcassonneAction(int encodedAction) {
+        this.actionEncoding = encodedAction;
+    }
 
-    public CarcassonneAction(boolean isAction, int x, int y,int rotation, int areaId,int tileId) {
+    public CarcassonneAction(boolean isAction, int x, int y, int rotation, int areaId, int tileId) {
         this.actionEncoding = CarcassonneActionLayoutBit.pack(x, y, rotation, areaId, tileId, isAction);
         if (x > 127 || x < -128 || y > 127 || y < -128) {
             throw new IllegalArgumentException("Coordinates out of range");
@@ -61,7 +65,7 @@ public  class CarcassonneAction {
     /// get Value
     ///
     /// returns the initial representation of the action
-    public int getValue(){
+    public int getValue() {
         return actionEncoding;
     }
 
@@ -88,28 +92,34 @@ public  class CarcassonneAction {
     public int getTileId() {
         return CarcassonneActionLayoutBit.getTileId(this.actionEncoding);
     }
+
     public static boolean areActionsEqual(int action1, int action2) {
         boolean action1IsAction = CarcassonneActionLayoutBit.getIsAction(action1);
         boolean action2IsAction = CarcassonneActionLayoutBit.getIsAction(action2);
-        // absolute inefficient could compare the bit pattern but this is clearer to understand
+        // absolute inefficient could compare the bit pattern but this is clearer to
+        // understand
         if (action1IsAction || action2IsAction) {
             return action1IsAction == action2IsAction
                     && CarcassonneActionLayoutBit.getX(action1) == CarcassonneActionLayoutBit.getX(action2)
                     && CarcassonneActionLayoutBit.getY(action1) == CarcassonneActionLayoutBit.getY(action2)
-                    && CarcassonneActionLayoutBit.getRotation(action1) == CarcassonneActionLayoutBit.getRotation(action2)
+                    && CarcassonneActionLayoutBit.getRotation(action1) == CarcassonneActionLayoutBit
+                            .getRotation(action2)
                     && CarcassonneActionLayoutBit.getAreaId(action1) == CarcassonneActionLayoutBit.getAreaId(action2)
                     && CarcassonneActionLayoutBit.getTileId(action1) == CarcassonneActionLayoutBit.getTileId(action2);
         }
 
         return CarcassonneActionLayoutBit.getTileId(action1) == CarcassonneActionLayoutBit.getTileId(action2);
     }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CarcassonneAction that)) return false;
-        // got a action. need to differentiate between a draw and a place action. because
+        if (this == o)
+            return true;
+        if (!(o instanceof CarcassonneAction that))
+            return false;
+        // got a action. need to differentiate between a draw and a place action.
+        // because
         // if we got a draw action we do not care about the stored x,y ...
-
 
         return areActionsEqual(actionEncoding, that.actionEncoding);
     }
@@ -121,8 +131,11 @@ public  class CarcassonneAction {
 
     @Override
     public String toString() {
-        return "CarcassonneAction{" +
-                "actionEncoding=" + actionEncoding +
-                '}';
+        if (isAction()) {
+            return String.format("PlaceAction[x=%d, y=%d, rot=%d, areaId=%d]", getX(), getY(), getRotation(),
+                    getAreaId());
+        } else {
+            return String.format("DrawAction[tileId=%d]", getTileId());
+        }
     }
 }

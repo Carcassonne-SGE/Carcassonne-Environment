@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.github.Carcassonne-SGE.EasyBitPacking</groupId>
             <artifactId>bitpacking-annotation</artifactId>
-            <version>v10</version>
+            <version>main-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -60,7 +60,7 @@
                         <path>
                             <groupId>com.github.Carcassonne-SGE.EasyBitPacking</groupId>
                             <artifactId>bitpacking-processor</artifactId>
-                            <version>v10</version>
+                            <version>main-SNAPSHOT</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
